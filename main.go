@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -47,8 +46,7 @@ func romanToArabic(romanNum string) (int, error) {
 		}
 	}
 	if result > 10 || result < 1 {
-		fmt.Println()
-		return 0, errors.New("Используйте числа, эквивалент которых находится в диапазоне от I(1) до X(10) включительно. Повторите ввод ещё раз.")
+		panic("Используйте числа, эквивалент которых находится в диапазоне от I(1) до X(10) включительно. Повторите ввод ещё раз.")
 	}
 	return result, nil
 }
@@ -74,8 +72,7 @@ func main() {
 	fmt.Println("Введите выражение с римскими или арабскими числами: ")
 	input, err = reader.ReadString('\n')
 	if err != nil {
-		fmt.Println("Ошибка при чтение ввода", err)
-		return
+		panic("Ошибка при чтение ввода")
 	}
 
 	input = strings.TrimSpace(input)
@@ -84,8 +81,7 @@ func main() {
 	var result int
 	//Проверка на наличие "всего что нужно" для начала работы с выражением
 	if len(parts) != 3 {
-		fmt.Println("Неправильный формат ввода. Ожидается формат: ЧИСЛО ОПЕРАТОР ЧИСЛО")
-		return
+		panic("Неправильный формат ввода. Ожидается формат: ЧИСЛО ОПЕРАТОР ЧИСЛО")
 	}
 
 	if check(parts[0]) && check(parts[2]) {
@@ -105,21 +101,21 @@ func main() {
 		case "-":
 			result = numRoman1 - numRoman2
 			if result <= 0 {
-				fmt.Println("Ошибка! Результат меньше I(1). Повторите ввод ещё раз")
-				return
+				panic("Ошибка! Результат меньше I(1). Повторите ввод ещё раз")
+
 			}
 		case "*":
 			result = numRoman1 * numRoman2
 		case "/":
 			if numRoman2 == 0 {
-				fmt.Println("Ошибка! На ноль делить нельзя! Ну и '0' не существует в римском формате счисления)) Повторите ввод ещё раз")
-				return
+				panic("Ошибка! На ноль делить нельзя! Ну и '0' не существует в римском формате счисления)) Повторите ввод ещё раз")
+
 			} else {
 				result = numRoman1 / numRoman2
 			}
 		default:
-			fmt.Println("В нашем калькуляторе не предусмотренн такой знак! Повторите ввод ещё раз.")
-			return
+			panic("В нашем калькуляторе не предусмотренн такой знак! Повторите ввод ещё раз.")
+
 		}
 
 		var romanNum string
@@ -139,8 +135,7 @@ func main() {
 		numArabic2, _ := strconv.Atoi(parts[2])
 
 		if numArabic1 > 10 || numArabic2 > 10 || numArabic1 < -10 || numArabic2 < -10 {
-			fmt.Println("Используйте числа, эквивалент которых находится в диапазоне от 0 до 10(включительно). Повторите ввод ещё раз.")
-			return
+			panic("Используйте числа, эквивалент которых находится в диапазоне от 0 до 10(включительно). Повторите ввод ещё раз.")
 		}
 
 		switch parts[1] {
@@ -152,18 +147,17 @@ func main() {
 			result = numArabic1 * numArabic2
 		case "/":
 			if numArabic2 == 0 {
-				fmt.Println("Ошибка! На ноль делить нельзя! Повторите ввод ещё раз")
-				return
+				panic("Ошибка! На ноль делить нельзя! Повторите ввод ещё раз")
+
 			} else {
 				result = numArabic1 / numArabic2
 			}
 		default:
-			fmt.Println("В нашем калькуляторе не предусмотренн такой знак! Введите выражение ещё раз.")
-			return
+			panic("В нашем калькуляторе не предусмотренн такой знак! Введите выражение ещё раз.")
+
 		}
 		fmt.Println("Результат:", result)
 	} else {
-		fmt.Println("Ошибка! Вы ввели 2 разных системы счисления")
-		return
+		panic("Ошибка! Вы ввели 2 разных системы счисления")
 	}
 }
