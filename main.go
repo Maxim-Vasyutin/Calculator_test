@@ -134,8 +134,8 @@ func main() {
 		numArabic1, _ := strconv.Atoi(parts[0])
 		numArabic2, _ := strconv.Atoi(parts[2])
 
-		if numArabic1 > 10 || numArabic2 > 10 || numArabic1 < -10 || numArabic2 < -10 {
-			panic("Используйте числа, эквивалент которых находится в диапазоне от 0 до 10(включительно). Повторите ввод ещё раз.")
+		if numArabic1 > 10 || numArabic2 > 10 || numArabic1 <= 0 || numArabic2 <= 0 {
+			panic("Используйте числа, эквивалент которых находится в диапазоне от 1 до 10(включительно). Повторите ввод ещё раз.")
 		}
 
 		switch parts[1] {
