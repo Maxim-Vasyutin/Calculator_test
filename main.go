@@ -64,6 +64,25 @@ func check(argument string) bool {
 	return true
 }
 
+func isValidRoman(romanNum string) bool {
+	invalidPatterns := []string{"IIII", "VV", "XXXX", "LL", "CCCC", "DD", "MMMM"}
+	for _, pattern := range invalidPatterns {
+		if strings.Contains(romanNum, pattern) {
+			return false
+		}
+	}
+	return true
+}
+
+func contains(slice []string, item string) bool {
+	for _, s := range slice {
+		if s == item {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	var input string
 	var err error
@@ -84,11 +103,29 @@ func main() {
 		panic("Неправильный формат ввода. Ожидается формат: ЧИСЛО ОПЕРАТОР ЧИСЛО")
 	}
 
+	validOperators := []string{"+", "-", "*", "/"}
+
+	// Проверка оператора
+	if !contains(validOperators, parts[1]) {
+		panic("Ошибка! Неправильный оператор. Введите одно из: +, -, *, /")
+	}
+
 	if check(parts[0]) && check(parts[2]) {
 		//Блок кода с логикой вычисления для римских цифр (можно подключить вызов отдельной функции, чтобы не засорять main)
+		if !isValidRoman(parts[0]) || !isValidRoman(parts[2]) {
+			panic("Ошибка! Введены некорректные римские числа. Повторите ввод ещё раз.")
+		}
 
 		numRoman1, err := romanToArabic(parts[0])
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 		numRoman2, err := romanToArabic(parts[2])
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 
 		if err != nil {
 			fmt.Print(err)
